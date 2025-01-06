@@ -35,7 +35,7 @@ from optuna_attenFP import AttentionConvNet
 from torch_geometric.loader import DataLoader
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from utils import MyOwnDataset
-device = torch.device('cuda:7' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 BATCHSIZE = 128
 CLASSES = 10
 DIR = os.getcwd()
@@ -188,7 +188,8 @@ if __name__ == "__main__":
     study = optuna.create_study(study_name='graph attention1 randomized file', direction="minimize",
                                 storage='sqlite:///graph-attention-v1.db',
                                 load_if_exists=True)
-    study.optimize(objective, n_trials=100000) #, timeout=100000
+    study.optimize(objective, n_trials=100) #, timeout=100000
+    #study.optimize(objective, n_trials=100000) #, timeout=100000
     pruned_trials = study.get_trials(deepcopy=False, states=[TrialState.PRUNED])
     complete_trials = study.get_trials(deepcopy=False, states=[TrialState.COMPLETE])
 
